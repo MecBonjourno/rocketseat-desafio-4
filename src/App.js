@@ -24,19 +24,29 @@ export default function App() {
 
 
   async function handleLikeRepository(id) {
-    await api.post(`/repositories/${id}/like`, (request, response) => {
-      const { id } = request.params;
+   const response = await api.post(`/repositories/${id}/like`);
+
+   const likedRepo = response.data; 
+      const repositoriesUpdated = repositories.map(repository => {
+      if (repository.id === id) {
+        return likedRepo
+      } else {
+        return repository;
+      }
+     })
+      // const { id } = request.params;
     
-      const repository = repositories.find(repository => repository.id === id);
+      // const repository = repositories.find(repository => repository.id === id);
     
       // if (!repository) {
       //   return response.status(400).json({ error: 'Repository not found.' });
       // }
     
-      repository.likes++;
+      // repository.likes++;
+      setRepos(repositoriesUpdated);
       
       // return response.json(repository);
-    });
+    
   }
 
   // app.get("/repositories", (request, response) => {
@@ -61,24 +71,20 @@ export default function App() {
 
           <View style={styles.techsContainer}>
             <Text style={styles.tech}>
-              ReactJS
+              {repository.techs.map(tech => (<Text key={tech} style={styles.tech}>{tech}</Text>))}
             </Text>
-            <Text style={styles.tech}>
+            {/* <Text style={styles.tech}>
               Node.js
-            </Text>
+            </Text> */}
           </View>
-
           <View style={styles.likesContainer}>
-            <Text
-              style={styles.likeText}
-              // Remember to replace "1" below with repository ID: {`repository-likes-${repository.id}`}
-              testID={`repository-likes-${repository.id}`}
-            >
-              {repository.likes} likes
-            </Text>
-          </View>
-
-
+                  <Text
+                    style={styles.likeText}
+                    testID={`repository-likes-${repository.id}`}
+                  >
+                    {repository.likes} curtidas
+                </Text>
+              </View>
           <TouchableOpacity
             style={styles.button}
             onPress={() => handleLikeRepository(repository.id)}
@@ -87,6 +93,8 @@ export default function App() {
           >
             <Text style={styles.buttonText}>Curtir</Text>
           </TouchableOpacity>
+
+          
            </>
            )} />
         </View>
