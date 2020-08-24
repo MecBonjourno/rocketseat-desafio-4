@@ -29,9 +29,9 @@ export default function App() {
     
       const repository = repositories.find(repository => repository.id === id);
     
-      if (!repository) {
-        return response.status(400).json({ error: 'Repository not found.' });
-      }
+      // if (!repository) {
+      //   return response.status(400).json({ error: 'Repository not found.' });
+      // }
     
       repository.likes++;
       
@@ -54,8 +54,10 @@ export default function App() {
     <>
       <StatusBar barStyle="light-content" backgroundColor="#7159c1" />
       <SafeAreaView style={styles.container}>
-        {/* <View style={styles.repositoryContainer}>
-          <Text style={styles.repository}>Repository 1</Text>
+        <View style={styles.repositoryContainer}>
+        <FlatList data={repositories} keyExtractor={repository => repository.id} renderItem={ ({item: repository}) => (
+          <>
+          <Text style={styles.repository}>{repository.title}</Text>
 
           <View style={styles.techsContainer}>
             <Text style={styles.tech}>
@@ -72,23 +74,25 @@ export default function App() {
               // Remember to replace "1" below with repository ID: {`repository-likes-${repository.id}`}
               testID={`repository-likes-1`}
             >
-              3 curtidas
+              {repository.likes} likes
             </Text>
           </View>
 
 
           <TouchableOpacity
             style={styles.button}
-            onPress={() => handleLikeRepository(1)}
+            onPress={() => handleLikeRepository(repository.id)}
             // Remember to replace "1" below with repository ID: {`like-button-${repository.id}`}
             testID={`like-button-1`}
           >
             <Text style={styles.buttonText}>Curtir</Text>
           </TouchableOpacity>
-        </View> */}
+           </>
+           )} />
+        </View>
 
 
-        <View style={styles.container}>
+        {/* <View style={styles.container}>
           <FlatList  data={repositories} keyExtractor={repository => repository.id} renderItem={({item: repository}) => (            
             <View style={styles.repositoryContainer}>
               <View style={styles.likesContainer}>
@@ -100,10 +104,10 @@ export default function App() {
              {repository.likes}
             </Text>
           </View>
-                {/* <Text >{repository.title}</Text>
+                <Text >{repository.title}</Text>
                 <Text >{repository.url}</Text>
                 <Text>{repository.techs}</Text>
-                <Text>{repository.likes}</Text> */}
+                <Text>{repository.likes}</Text> 
             <TouchableOpacity
             style={styles.button}
             onPress={() => handleLikeRepository(repository.id)}
@@ -115,7 +119,7 @@ export default function App() {
               </View>
                 
             )} />
-        </View>
+        </View> */}
 
       </SafeAreaView>
     </>
